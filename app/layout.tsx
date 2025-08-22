@@ -10,6 +10,7 @@ import { AuthProvider } from "@/context/auth-context"
 import { TeamProvider } from "@/context/team-context"
 import { AnnouncementProvider } from "@/context/announcement-context"
 import AnnouncementPopup from "@/components/announcements/announcement-popup"
+import ChunkErrorHandler from "@/components/chunk-error-handler"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -39,17 +40,19 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-            <ClientProvider>
-              <TeamProvider>
-                <NotificationProvider>
-                  <AnnouncementProvider>
-                    {children}
-                    <AnnouncementPopup />
-                    <Toaster />
-                  </AnnouncementProvider>
-                </NotificationProvider>
-              </TeamProvider>
-            </ClientProvider>
+            <ChunkErrorHandler>
+              <ClientProvider>
+                <TeamProvider>
+                  <NotificationProvider>
+                    <AnnouncementProvider>
+                      {children}
+                      <AnnouncementPopup />
+                      <Toaster />
+                    </AnnouncementProvider>
+                  </NotificationProvider>
+                </TeamProvider>
+              </ClientProvider>
+            </ChunkErrorHandler>
           </ThemeProvider>
         </AuthProvider>
       </body>
